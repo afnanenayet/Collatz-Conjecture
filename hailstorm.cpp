@@ -7,41 +7,37 @@
 //
 
 #include <iostream>
+#include <fstream>
 
-bool isHail (int n) {
+int hail_time(int n) {
     auto counter = 0;
-   while (n != 1) {
+    while (n != 1) {
         if (n % 2 == 0) {
             n = n / 2;
-        }
-        
-        else {
+        } else {
             n = (3 * n) + 1;
         }
-       
        counter++;
     }
     
     std::cout << "|| Time: " << counter;
-    return true;
+    return counter;
 }
 
 int main() {
+    std::ofstream csv_file;
+    csv_file.open("collatz.csv");
     int hailNumber;
-    std::cout << "Type in the number you want to start from.\n";
+    std::cout << "Type in the upper bound.\n";
     std::cin >> hailNumber;
     
-    bool hail = true;
-    
-    hailNumber--;
-    
-    while (hail == true) {
-        hailNumber++;
-        hail = isHail(hailNumber);
-        std::cout << "\n" << hailNumber << " ";
+    for(auto i = 1; i < hailNumber + 1; i++) {
+        auto time = hail_time(i);
+        std::cout << "\n" << i << " ";
+        csv_file << i << "," << time << "\n";
     }
-    
-    std::cout << "\n" << hailNumber << " breaks the conjecture!";
+    csv_file.close();
+    return 0;    
 }
 
 
